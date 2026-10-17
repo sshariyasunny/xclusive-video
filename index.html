@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>X Exclusive | Meet New People</title>
     
     <!-- Favicon -->
@@ -70,6 +73,8 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
 
         .site-logo {
@@ -136,6 +141,7 @@
             cursor: pointer;
             transition: background 0.2s;
             border: none;
+            text-decoration: none;
         }
 
         .icon-btn:hover, .icon-btn:active {
@@ -154,6 +160,7 @@
             justify-content: center;
             gap: 6px;
             border-bottom: 1px solid #d8e9fd;
+            text-decoration: none;
         }
 
         /* Profile Grid */
@@ -388,24 +395,24 @@
     <div class="main-wrapper">
         <!-- Landing Page Header -->
         <header class="header">
-            <div class="header-left" onclick="handleSmartLinkClick(event)">
+            <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" class="header-left" onclick="handleSmartLinkClick(event)">
                 <img src="https://majedarnews.com/Images/caf7f799a632c271da23787f_card.webp" alt="Logo" class="site-logo" id="site-logo">
                 <span class="site-title" id="site-title">X Exclusive</span>
-            </div>
+            </a>
             <div class="header-right">
                 <div class="online-status">
                     <span class="dot"></span>
                     <span id="online-count">064 Online</span>
                 </div>
-                <button class="icon-btn" onclick="handleSmartLinkClick(event)" title="Menu">☰</button>
+                <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" class="icon-btn" onclick="handleSmartLinkClick(event)" title="Menu">☰</a>
                 <button class="icon-btn" onclick="toggleLangModal()" title="Language">EN</button>
             </div>
         </header>
 
         <!-- Dynamic Live Badge Sub-bar -->
-        <div class="sub-bar" onclick="handleSmartLinkClick(event)" style="cursor: pointer;">
+        <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" class="sub-bar" onclick="handleSmartLinkClick(event)" style="cursor: pointer;">
             <span>⚡ Available girls near you online right now</span>
-        </div>
+        </a>
 
         <!-- Profiles Grid -->
         <main class="grid-container" id="profiles-grid"></main>
@@ -414,9 +421,9 @@
         <footer class="footer">
             &copy; 2026 <span id="footer-brand">X Exclusive</span>. All Rights Reserved.
             <div class="footer-links">
-                <a href="#" onclick="handleSmartLinkClick(event)">Privacy Policy</a>
-                <a href="#" onclick="handleSmartLinkClick(event)">Terms of Service</a>
-                <a href="#" onclick="handleSmartLinkClick(event)">Contact 18+</a>
+                <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" onclick="handleSmartLinkClick(event)">Privacy Policy</a>
+                <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" onclick="handleSmartLinkClick(event)">Terms of Service</a>
+                <a href="https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13" target="_blank" rel="noopener noreferrer" onclick="handleSmartLinkClick(event)">Contact 18+</a>
             </div>
         </footer>
     </div>
@@ -488,13 +495,12 @@
 
         // Smart Link Click Handler with In-App Browser Breakout
         function handleSmartLinkClick(e) {
-            if (e) e.preventDefault();
-            
-            const smartLink = APP_CONFIG.smartLink ? APP_CONFIG.smartLink.trim() : "";
+            const smartLink = APP_CONFIG.smartLink ? APP_CONFIG.smartLink.trim() : "https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13";
             
             // লিংক না বসালে একটি সতর্কবার্তা দেখাবে
             if (!smartLink || smartLink === "" || smartLink === "#") {
                 alert("দয়া করে index.html ফাইলের APP_CONFIG.smartLink এ আপনার ডিরেক্ট বা এফিলিয়েট লিংকটি যুক্ত করুন।");
+                if (e) e.preventDefault();
                 return;
             }
             
@@ -510,10 +516,15 @@
 
             // If user clicks inside Facebook/Instagram/TikTok in-app browser on Android:
             if (enableBreakout === "1" && isFB && /android/i.test(ua)) {
+                if (e) e.preventDefault();
                 const cleanUrl = smartLink.replace(/^https?:\/\//, '');
                 const chromeIntent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.android.chrome;end;";
                 window.location.href = chromeIntent;
-            } else {
+                return;
+            }
+
+            // Fallback for elements without an href attribute or script-triggered clicks
+            if (!e || !e.currentTarget || !e.currentTarget.getAttribute('href')) {
                 window.open(smartLink, '_blank');
             }
         }
@@ -526,8 +537,7 @@
 
         function selectLang(lang) {
             toggleLangModal();
-            // Optional: trigger link or update locale
-            handleSmartLinkClick();
+            window.open(APP_CONFIG.smartLink, '_blank');
         }
 
         // Live Dynamic Online Users Counter Animation
@@ -588,7 +598,7 @@
                 const randomAge = Math.floor(Math.random() * (26 - 19 + 1)) + 19;
 
                 gridHTML += `
-                    <div class="profile-card" onclick="handleSmartLinkClick(event)" title="Chat with ${randomName}">
+                    <a href="${APP_CONFIG.smartLink}" target="_blank" rel="noopener noreferrer" class="profile-card" onclick="handleSmartLinkClick(event)" title="Chat with ${randomName}">
                         <div class="image-wrapper">
                             <span class="badge-live"><span class="badge-dot"></span> Live</span>
                             <img src="${imageSrc}" alt="${randomName}" class="profile-image" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80'">
@@ -606,7 +616,7 @@
                                 <span>${APP_CONFIG.waButtonText}</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 `;
             }
             grid.innerHTML = gridHTML;
