@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>X Exclusive | Meet New People</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" type="image/svg+xml">
+
+    <!-- Optional Google Analytics (Insert your ID in config below) -->
+    <script id="ga-script"></script>
+
+    <style>
+        :root {
+            --primary: #25D366;
+            --primary-hover: #20bd5a;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #1c1e21;
+            --text-muted: #65676B;
+            --border-radius: 14px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 540px;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 25px rgba(0,0,0,0.05);
+        }
+
+        /* Header Bar */
+        .header {
+            background-color: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .site-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .site-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #f0f2f5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
+            user-select: none;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00d26a;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #00d26a;
+            animation: pulse-dot 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.25); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: #f0f2f5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+        }
+
+        .icon-btn:hover, .icon-btn:active {
+            background: #e4e6eb;
+        }
+
+        /* Notice Banner */
+        .sub-bar {
+            padding: 8px 16px;
+            background: #ebf5ff;
+            color: #0064d1;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-bottom: 1px solid #d8e9fd;
+        }
+
+        /* Profile Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 14px;
+            flex: 1;
+            background-color: #f7f9fa;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            padding-bottom: 14px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            color: inherit;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-card:active {
+            transform: scale(0.97);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            background-color: #e4e6eb;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover .profile-image {
+            transform: scale(1.03);
+        }
+
+        .badge-live {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: #25D366;
+            border-radius: 50%;
+        }
+
+        .profile-info {
+            padding: 10px 8px 0 8px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .verified-icon {
+            color: #1877F2;
+            display: inline-flex;
+        }
+
+        .profile-location {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 11px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 9px 12px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 800;
+            width: 90%;
+            margin: auto auto 0 auto;
+            border: 2px solid #ffffff;
+            box-shadow: 0 3px 6px rgba(37, 211, 102, 0.25);
+            transition: background-color 0.2s, transform 0.15s;
+            gap: 7px;
+        }
+
+        .wa-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .wa-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: #ffffff;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            background-color: #f7f9fa;
+            border-top: 1px solid #ebeef2;
+        }
+
+        .footer span {
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .footer-links {
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            font-size: 11px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Language Modal (Simple Sheet) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 320px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .lang-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .lang-item {
+            padding: 10px;
+            background: #f0f2f5;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .lang-item:hover, .lang-item.active {
+            background: #25D366;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <!-- Landing Page Header -->
+        <header class="header">
+            <div class="header-left" onclick="handleSmartLinkClick(event)">
+                <img src="https://majedarnews.com/Images/caf7f799a632c271da23787f_card.webp" alt="Logo" class="site-logo" id="site-logo">
+                <span class="site-title" id="site-title">X Exclusive</span>
+            </div>
+            <div class="header-right">
+                <div class="online-status">
+                    <span class="dot"></span>
+                    <span id="online-count">064 Online</span>
+                </div>
+                <button class="icon-btn" onclick="handleSmartLinkClick(event)" title="Menu">☰</button>
+                <button class="icon-btn" onclick="toggleLangModal()" title="Language">EN</button>
+            </div>
+        </header>
+
+        <!-- Dynamic Live Badge Sub-bar -->
+        <div class="sub-bar" onclick="handleSmartLinkClick(event)" style="cursor: pointer;">
+            <span>⚡ Available girls near you online right now</span>
+        </div>
+
+        <!-- Profiles Grid -->
+        <main class="grid-container" id="profiles-grid"></main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy; 2026 <span id="footer-brand">X Exclusive</span>. All Rights Reserved.
+            <div class="footer-links">
+                <a href="#" onclick="handleSmartLinkClick(event)">Privacy Policy</a>
+                <a href="#" onclick="handleSmartLinkClick(event)">Terms of Service</a>
+                <a href="#" onclick="handleSmartLinkClick(event)">Contact 18+</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Language Modal -->
+    <div class="modal-overlay" id="langModal" onclick="toggleLangModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-title">Select Language</div>
+            <div class="lang-list">
+                <button class="lang-item active" onclick="selectLang('EN')">English (EN)</button>
+                <button class="lang-item" onclick="selectLang('ES')">Español (ES)</button>
+                <button class="lang-item" onclick="selectLang('FR')">Français (FR)</button>
+                <button class="lang-item" onclick="selectLang('DE')">Deutsch (DE)</button>
+                <button class="lang-item" onclick="selectLang('BN')">বাংলা (BN)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SVG Definitions -->
+    <svg style="display: none;">
+        <symbol id="icon-wa" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.124-.516-1.571-.649-2.58-2.247-2.658-2.353-.078-.105-.635-.845-.635-1.611 0-.766.402-1.144.545-1.3.144-.155.312-.195.418-.195.105 0 .21 0 .303.006.101.004.237-.038.37.283.144.35.491 1.196.533 1.282.042.086.071.187.013.303-.058.117-.087.19-.174.292-.087.103-.183.23-.262.309-.088.087-.179.182-.077.357.102.175.453.747.971 1.209.668.594 1.232.778 1.407.865.175.087.278.073.382-.047.105-.119.447-.521.567-.7.12-.178.239-.149.4-.089.162.06 1.026.484 1.202.572.175.088.293.131.336.205.043.074.043.432-.101.837zM12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5.006L2 22l5.127-1.314A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+        </symbol>
+        <symbol id="icon-verify" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.2l-3.5-3.5 1.41-1.41 2.09 2.08 5.69-5.69 1.41 1.41-7.1 7.11z"/>
+        </symbol>
+    </svg>
+
+    <!-- Configuration & Click Handler Script -->
+    <script>
+        /* ========================================================
+         * ⚙️ CONFIGURATION SETTINGS (Edit your links & options here)
+         * ======================================================== */
+        const APP_CONFIG = {
+            // =========================================================================
+            // 👉 আপনার ডিরেক্ট লিংক / এফিলিয়েট লিংক / CPA লিংক এখানে বসান:
+            // =========================================================================
+            smartLink: "https://cucumberrsaffluent.com/SyYj8krm9Zk?key=qDhLAfVT-Qn2aIdAItvQ3pNmSwieRrBLcF73J4Dfnw4", 
+            
+            // ওয়েবসাইটের নাম (Site Title)
+            siteTitle: "X Exclusive",
+
+            // লোগো ছবির লিংক
+            siteLogo: "https://majedarnews.com/Images/caf7f799a632c271da23787f_card.webp",
+
+            // ১ = ফেসবুক/ইনস্টাগ্রাম ইন-অ্যাপ ব্রাউজার ব্রেকআউট চালু (Chrome-এ ওপেন হবে)
+            // ০ = সাধারণ রিডাইরেক্ট
+            enableBreakout: "1",
+
+            // গুগল অ্যানালিটিক্স আইডি (প্রয়োজন হলে বসান, নাহলে ফাঁকা রাখুন)
+            gaId: "",
+
+            // বাটনের লেখা
+            waButtonText: "WhatsApp"
+        };
+
+        // Initialize Google Analytics if provided
+        if (APP_CONFIG.gaId && APP_CONFIG.gaId.trim() !== "") {
+            const gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${APP_CONFIG.gaId}`;
+            document.head.appendChild(gaScript);
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', APP_CONFIG.gaId);
+        }
+
+        // Smart Link Click Handler with In-App Browser Breakout
+        function handleSmartLinkClick(e) {
+            if (e) e.preventDefault();
+            
+            const smartLink = APP_CONFIG.smartLink ? APP_CONFIG.smartLink.trim() : "";
+            
+            // লিংক না বসালে একটি সতর্কবার্তা দেখাবে
+            if (!smartLink || smartLink === "" || smartLink === "#") {
+                alert("দয়া করে index.html ফাইলের APP_CONFIG.smartLink এ আপনার ডিরেক্ট বা এফিলিয়েট লিংকটি যুক্ত করুন।");
+                return;
+            }
+            
+            const enableBreakout = APP_CONFIG.enableBreakout;
+            
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            const isFB = (ua.indexOf("FBAN") > -1) || 
+                         (ua.indexOf("FBAV") > -1) || 
+                         (ua.indexOf("Instagram") > -1) || 
+                         (ua.indexOf("FB_IAB") > -1) || 
+                         (ua.indexOf("Messenger") > -1) ||
+                         (ua.indexOf("TikTok") > -1);
+
+            // If user clicks inside Facebook/Instagram/TikTok in-app browser on Android:
+            if (enableBreakout === "1" && isFB && /android/i.test(ua)) {
+                const cleanUrl = smartLink.replace(/^https?:\/\//, '');
+                const chromeIntent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.android.chrome;end;";
+                window.location.href = chromeIntent;
+            } else {
+                window.open(smartLink, '_blank');
+            }
+        }
+
+        // Language Modal Toggle
+        function toggleLangModal() {
+            const modal = document.getElementById('langModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function selectLang(lang) {
+            toggleLangModal();
+            // Optional: trigger link or update locale
+            handleSmartLinkClick();
+        }
+
+        // Live Dynamic Online Users Counter Animation
+        function startOnlineCounter() {
+            let baseCount = 58;
+            const countEl = document.getElementById("online-count");
+            
+            setInterval(() => {
+                const delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
+                baseCount = Math.max(38, Math.min(99, baseCount + delta));
+                const formatted = baseCount < 100 ? `0${baseCount}` : `${baseCount}`;
+                if (countEl) countEl.innerText = `${formatted} Online`;
+            }, 3500);
+        }
+
+        // Data for Profiles
+        const locations = [
+            "Madrid, Spain", "Barcelona, Spain", "New York, USA", "Toronto, Canada", 
+            "London, UK", "Valencia, Spain", "Miami, USA", "Vancouver, Canada",
+            "Rome, Italy", "Sydney, Australia", "Paris, France", "Berlin, Germany"
+        ];
+
+        const names = [
+            "Isabella", "Sofia", "Emma", "Olivia", "Mia", "Lucia", 
+            "Camila", "Martina", "Chloe", "Emily", "Amelia", "Harper", 
+            "Evelyn", "Avery", "Luna", "Elena", "Valentina", "Zara"
+        ];
+
+        const imageFiles = [
+            "https://majedarnews.com/Images/dcc8f8929e66fadb7c4da8ef_card.webp",
+            "https://majedarnews.com/Images/d29276241f8021ae345a4e61_card.webp",
+            "https://majedarnews.com/Images/d06698f37b494f4baf7039df.webp",
+            "https://majedarnews.com/Images/d433a7cfac6a0fe4ee2ab508.webp",
+            "https://majedarnews.com/Images/d1b17151ddef3f2c1f2eec74.webp",
+            "https://majedarnews.com/Images/ca23b31a1f40be7706456b59.webp",
+            "https://majedarnews.com/Images/2779347318c20bde55f28bc8.webp",
+            "https://majedarnews.com/Images/39cab8948fb860d18e51eb9c_card.webp",
+            "https://majedarnews.com/Images/23e796db19fe30fa1a0ced78.webp",
+            "https://majedarnews.com/Images/6a3b2c3b551f3b8519a6b00f_card.webp",
+            "https://majedarnews.com/Images/5b8e7ee3f286763a3f02ed26_card.webp",
+            "https://majedarnews.com/Images/5adee3e23b200580ed14138e_card.webp",
+            "https://majedarnews.com/Images/4fb02f14eff3e9bcd6f307a5.webp",
+            "https://majedarnews.com/Images/4c2142a105cf75e3bf1020bf_card.webp",
+            "https://majedarnews.com/Images/1bd8fcdf07e7293665f2806f_card.webp",
+            "https://majedarnews.com/Images/dcc8f8929e66fadb7c4da8ef_card.webp"
+        ];
+
+        // Render Profiles Grid
+        function renderProfiles() {
+            const grid = document.getElementById("profiles-grid");
+            if (!grid) return;
+            
+            let gridHTML = '';
+            for (let i = 0; i < imageFiles.length; i++) {
+                const randomName = names[i % names.length];
+                const randomLoc = locations[i % locations.length];
+                const imageSrc = imageFiles[i];
+                const randomAge = Math.floor(Math.random() * (26 - 19 + 1)) + 19;
+
+                gridHTML += `
+                    <div class="profile-card" onclick="handleSmartLinkClick(event)" title="Chat with ${randomName}">
+                        <div class="image-wrapper">
+                            <span class="badge-live"><span class="badge-dot"></span> Live</span>
+                            <img src="${imageSrc}" alt="${randomName}" class="profile-image" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80'">
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">
+                                ${randomName}, ${randomAge}
+                                <span class="verified-icon" title="Verified">
+                                    <svg width="14" height="14"><use href="#icon-verify"/></svg>
+                                </span>
+                            </div>
+                            <div class="profile-location">📍 ${randomLoc}</div>
+                            <div class="wa-btn">
+                                <svg><use href="#icon-wa"/></svg>
+                                <span>${APP_CONFIG.waButtonText}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            grid.innerHTML = gridHTML;
+        }
+
+        // Initialize on DOM Ready
+        document.addEventListener("DOMContentLoaded", () => {
+            renderProfiles();
+            startOnlineCounter();
+        });
+    </script>
+</body>
+</html>
