@@ -24,7 +24,7 @@
 ```javascript
 const APP_CONFIG = {
     // 👉 আপনার সেট করা স্মার্ট / এফিলিয়েট লিংক:
-    smartLink: "https://cucumberrsaffluent.com/SyYj8krm9Zk?key=qDhLAfVT-Qn2aIdAItvQ3pNmSwieRrBLcF73J4Dfnw4",
+    smartLink: "https://stubbleestrange.com/xqa8y7khw?key=862fceb6fa97be62cc90785bc25bbf13",
     
     // ওয়েবসাইটের নাম (Site Title):
     siteTitle: "X Exclusive",
